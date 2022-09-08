@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qg/pages/qg_main_screen.dart';
+import 'package:qg/pages/qg_realizar_pedido.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,6 +14,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: MainScreen(),
+      routes: {
+      '/realizarpedido': (context) => RealizarPedido(),
+    },
     );
   }
 }
