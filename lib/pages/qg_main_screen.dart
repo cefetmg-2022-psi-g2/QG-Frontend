@@ -60,14 +60,18 @@ class _MainScreenState extends State<MainScreen> {
         backgroundColor: Color(0xffEEEEEE),
         body: Padding(
           padding: EdgeInsets.all(5),
-          child: Flexible(
-            child: ListView(
-              shrinkWrap: true,
-              children: [
-                for (Pedido pedido in pedidos)
-                  CardPedido(pedido: pedido)
-              ],
-            ),
+          child: Column(
+            children: [
+              Flexible(
+                child: ListView(
+                  shrinkWrap: true,
+                  children: [
+                    for (Pedido pedido in pedidos)
+                      CardPedido(pedido: pedido)
+                  ],
+                ),
+              ),
+            ],
           )
         ),
         floatingActionButton: FloatingActionButton(
