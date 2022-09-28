@@ -1,7 +1,11 @@
+import 'dart:convert';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:qg/widgets/card-pedidos.dart';
 
 import '../models/pedidos.dart';
+
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -36,7 +40,8 @@ class _MainScreenState extends State<MainScreen> {
               icon: const Icon(Icons.notifications_active_rounded),
               tooltip: 'Notificações',
               onPressed: () {
-                //coloca aqui a função
+
+                
               },
               color: Color.fromARGB(255, 95, 95, 95),
             ),

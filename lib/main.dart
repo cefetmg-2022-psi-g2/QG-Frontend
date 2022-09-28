@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: PrimeiroAcesso(),
+      home: MainScreen(),
       routes: {
       '/realizarpedido': (context) => RealizarPedido(),
       '/primeiroacesso': (context) => PrimeiroAcesso(),
