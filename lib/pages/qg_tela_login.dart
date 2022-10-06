@@ -1,6 +1,8 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginUsuario extends StatelessWidget {
   const LoginUsuario({Key? key}) : super(key: key);
@@ -12,7 +14,7 @@ class LoginUsuario extends StatelessWidget {
         backgroundColor: Color.fromARGB(255, 255, 251, 251),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Container(
+          child: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -26,11 +28,13 @@ class LoginUsuario extends StatelessWidget {
                     iconSize: 30,
                     tooltip: 'Voltar para a tela principal',
                     onPressed: () {
-                     Navigator.pop(context);
+                      Navigator.pop(context);
                     },
                   ),
                 ),
-                SizedBox(height: 20,),
+                SizedBox(
+                  height: 20,
+                ),
                 Text(
                   "Entrar",
                   style: TextStyle(
@@ -47,13 +51,16 @@ class LoginUsuario extends StatelessWidget {
                 ),
                 SizedBox(height: 8),
                 TextField(
+                  
                   obscureText: true,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Senha*',
                   ),
                 ),
-                SizedBox(height: 30,),
+                SizedBox(
+                  height: 30,
+                ),
                 Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -65,24 +72,25 @@ class LoginUsuario extends StatelessWidget {
                         fontWeight: FontWeight.w100,
                       ),
                     ),
-                    SizedBox(height: 15,),
+                    SizedBox(
+                      height: 15,
+                    ),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         primary: Color(0xff1FFFBF),
                       ),
-                      onPressed: () {
-
+                      onPressed: (){
+                        Navigator.pushNamed(context, '/mainscreen');
                       },
                       child: const Text(
                         'Realizar Login',
                         style: TextStyle(
                           color: Colors.black,
                         ),
-                        ),
+                      ),
                     ),
                   ],
                 ),
-    
               ],
             ),
           ),

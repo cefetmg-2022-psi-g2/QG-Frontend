@@ -6,20 +6,34 @@ import 'package:qg/widgets/card-pedidos.dart';
 
 import '../models/pedidos.dart';
 
-
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
-
   @override
   State<MainScreen> createState() => _MainScreenState();
 }
 
 class _MainScreenState extends State<MainScreen> {
-
   List<Pedido> pedidos = [];
+
+  Future<List<Pedido>> loadPedidos() async {
+    var dio = Dio();
+    List<Pedido> pedidosAPI = [];
+    Response response = await dio.get("http://10.0.2.2:3000/pedidos");
+    response.data.forEach((pedido) {
+      //print(pedido["name"];
+      Pedido p = new Pedido(item: pedido['name'], campus: pedido['campus'], predio: pedido['building_id'], complemento: pedido['localization'], categoria: pedido['category_id'], observacoes: pedido['description']);
+      pedidosAPI.add(p);
+    });
+    return pedidosAPI;
+  }
 
   @override
   Widget build(BuildContext context) {
+    loadPedidos().then((val) => {
+          setState(() {
+            pedidos = val;
+          })
+        });
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -39,10 +53,7 @@ class _MainScreenState extends State<MainScreen> {
             IconButton(
               icon: const Icon(Icons.notifications_active_rounded),
               tooltip: 'Notificações',
-              onPressed: () {
-
-                
-              },
+              onPressed: () {},
               color: Color.fromARGB(255, 95, 95, 95),
             ),
             const SizedBox(
@@ -64,21 +75,19 @@ class _MainScreenState extends State<MainScreen> {
         ),
         backgroundColor: Color(0xffEEEEEE),
         body: Padding(
-          padding: EdgeInsets.all(5),
-          child: Column(
-            children: [
-              Flexible(
-                child: ListView(
-                  shrinkWrap: true,
-                  children: [
-                    for (Pedido pedido in pedidos)
-                      CardPedido(pedido: pedido)
-                  ],
+            padding: EdgeInsets.all(5),
+            child: Column(
+              children: [
+                Flexible(
+                  child: ListView(
+                    shrinkWrap: true,
+                    children: [
+                      for (Pedido pedido in pedidos) CardPedido(pedido: pedido)
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          )
-        ),
+              ],
+            )),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             Navigator.pushNamed(context, '/realizarpedido');

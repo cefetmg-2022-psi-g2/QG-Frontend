@@ -12,7 +12,7 @@ class RealizarPedido extends StatelessWidget {
         backgroundColor: Color.fromARGB(255, 255, 251, 251),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Container(
+          child: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
