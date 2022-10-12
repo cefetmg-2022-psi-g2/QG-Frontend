@@ -22,16 +22,90 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        drawer: Drawer(
+          child: ListView(
+            padding: EdgeInsets.all(12),
+            children: <Widget> [
+              Center(
+                child: Column(
+                  children: [
+                    Center(
+                      child: Icon(
+                        Icons.account_circle_rounded, 
+                        size: 200,
+                      ),
+                    ),
+                    SizedBox(width: 40),
+                    Container(
+                      width: 220,
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          "Nome do Usuário",
+                          style: TextStyle(
+                            fontSize: 22,
+                          ),
+                        ),
+                      )
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(bottom: 20),
+                      child: 
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "4,0",
+                              style: TextStyle(
+                                fontSize: 22,
+                              ),
+                            ),
+                            SizedBox(height: 8),
+                            Icon(
+                              Icons.star,
+                              color: Color(0xff1FFFBF),
+                            )
+                          ],
+                        ),
+                    ),
+                  ],
+                ),
+              ),
+              ListTile(
+                title: Text("Editar Dados"),
+                onTap: () {
+                  Navigator.pushNamed(context, '/editardados');
+                }    /////// FUNÇÃO PARA IR PARA A TELA DE EDITAR DADOS /////////////
+              ),
+              const Divider(color: Colors.grey),
+              ListTile(
+                title: Text("Amigos"),
+                onTap: () {
+                  Navigator.pushNamed(context, '/amigos');
+                }    /////// FUNÇÃO PARA IR PARA A TELA DE AMIGOS /////////////
+              ),
+              const Divider(color: Colors.grey),
+              ListTile(
+                title: Text(
+                  "Desativar Conta",
+                  style: TextStyle(
+                    color: Colors.red,
+                  ),
+                ),
+                onTap: () {}    /////// FUNÇÃO PARA IR PARA EXCLUIR CONTA /////////////
+              )
+            ]
+          ),
+        ),
         appBar: AppBar(
           leading: Builder(
             builder: (BuildContext context) {
               return IconButton(
                 color: Color.fromARGB(255, 95, 95, 95),
-                onPressed: () {
-                  null;
-                },
                 icon: const Icon(Icons.account_circle_rounded),
                 iconSize: 45,
+                onPressed: () => Scaffold.of(context).openDrawer(),
               );
             },
           ),
@@ -40,8 +114,7 @@ class _MainScreenState extends State<MainScreen> {
               icon: const Icon(Icons.notifications_active_rounded),
               tooltip: 'Notificações',
               onPressed: () {
-               
-                
+                Navigator.pushNamed(context, '/abrirnotificacoes');
               },
               color: Color.fromARGB(255, 95, 95, 95),
             ),

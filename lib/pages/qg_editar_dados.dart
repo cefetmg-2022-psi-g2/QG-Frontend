@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
-class LoginUsuario extends StatelessWidget {
-  const LoginUsuario({Key? key}) : super(key: key);
+class EditarDados extends StatefulWidget {
+  const EditarDados({super.key});
 
+  @override
+  State<EditarDados> createState() => _EditarDadosState();
+}
+
+class _EditarDadosState extends State<EditarDados> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -12,7 +15,7 @@ class LoginUsuario extends StatelessWidget {
         backgroundColor: Color.fromARGB(255, 255, 251, 251),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Container(
+          child: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -32,7 +35,7 @@ class LoginUsuario extends StatelessWidget {
                 ),
                 SizedBox(height: 20,),
                 Text(
-                  "Entrar",
+                  "Editar dados",
                   style: TextStyle(
                     fontSize: 50,
                     fontWeight: FontWeight.w700,
@@ -42,15 +45,28 @@ class LoginUsuario extends StatelessWidget {
                 TextField(
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
-                    labelText: "E-mail",
+                    labelText: "Usuario*",
                   ),
                 ),
                 SizedBox(height: 8),
                 TextField(
-                  obscureText: true,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
-                    labelText: 'Senha*',
+                    labelText: "Email",
+                  ),
+                ),
+                SizedBox(height: 8),
+                TextField(
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: "Telefone",
+                  ),
+                ),
+                SizedBox(height: 8),
+                TextField(
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: "Sexo",
                   ),
                 ),
                 SizedBox(height: 30,),
@@ -59,7 +75,7 @@ class LoginUsuario extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      "Esqueci minha senha?",
+                      "Os campos com * são obrigatórios!",
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w100,
@@ -71,10 +87,10 @@ class LoginUsuario extends StatelessWidget {
                         primary: Color(0xff1FFFBF),
                       ),
                       onPressed: () {
-                        Navigator.pushNamed(context, '/mainscreen');
+
                       },
                       child: const Text(
-                        'Realizar Login',
+                        'Salvar Alterações',
                         style: TextStyle(
                           color: Colors.black,
                         ),
