@@ -4,7 +4,7 @@ class Pedido {
   int campus;
   int predio;
   String complemento;
-  String categoria;
+  int categoria;
   String? observacoes;
   
   Pedido({required this.item, required this.campus, required this.predio, 

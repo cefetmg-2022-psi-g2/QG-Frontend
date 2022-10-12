@@ -22,6 +22,7 @@ class MyApp extends StatelessWidget {
       home: PrimeiroAcesso(),
       routes: {
       '/realizarpedido': (context) => RealizarPedido(),
+      '/mainscreen': (context) => MainScreen(),
       '/primeiroacesso': (context) => PrimeiroAcesso(),
       '/realizarlogin':(context) => LoginUsuario(),
       '/realizarcadastro':(context) => CadastroUsuario(),
