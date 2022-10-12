@@ -127,13 +127,11 @@ class _MainScreenState extends State<MainScreen> {
             IconButton(
               icon: const Icon(Icons.notifications_active_rounded),
               tooltip: 'Notificações',
-<<<<<<< HEAD
-              onPressed: () {},
-=======
+
               onPressed: () {
                 Navigator.pushNamed(context, '/abrirnotificacoes');
               },
->>>>>>> main
+
               color: Color.fromARGB(255, 95, 95, 95),
             ),
             const SizedBox(
