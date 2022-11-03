@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:dio/dio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shared_preferences_android/shared_preferences_android.dart';
+import 'dart:convert';
+import '../models/usuario.dart';
 
 class LoginUsuario extends StatelessWidget {
-  const LoginUsuario({Key? key}) : super(key: key);
+  LoginUsuario({Key? key}) : super(key: key);
+  final passwordController = TextEditingController();
+  final usernameController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -26,11 +33,13 @@ class LoginUsuario extends StatelessWidget {
                     iconSize: 30,
                     tooltip: 'Voltar para a tela principal',
                     onPressed: () {
-                     Navigator.pop(context);
+                      Navigator.pop(context);
                     },
                   ),
                 ),
-                SizedBox(height: 20,),
+                SizedBox(
+                  height: 20,
+                ),
                 Text(
                   "Entrar",
                   style: TextStyle(
@@ -40,20 +49,24 @@ class LoginUsuario extends StatelessWidget {
                 ),
                 SizedBox(height: 20),
                 TextField(
+                  controller: usernameController,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
-                    labelText: "E-mail",
+                    labelText: "Username",
                   ),
                 ),
                 SizedBox(height: 8),
                 TextField(
+                  controller: passwordController,
                   obscureText: true,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Senha*',
                   ),
                 ),
-                SizedBox(height: 30,),
+                SizedBox(
+                  height: 30,
+                ),
                 Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -65,24 +78,98 @@ class LoginUsuario extends StatelessWidget {
                         fontWeight: FontWeight.w100,
                       ),
                     ),
-                    SizedBox(height: 15,),
+                    SizedBox(
+                      height: 15,
+                    ),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         primary: Color(0xff1FFFBF),
                       ),
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/mainscreen');
+                      onPressed: () async {
+                        var dio = Dio();
+                        try {
+                          Response response = await dio
+                              .post("http://10.0.2.2:4000/auth/login", data: {
+                            'username': usernameController.text,
+                            'password': passwordController.text
+                          });
+                          if (response.statusCode == 200) {
+                            String token = response.data['token'];
+                            try {
+                              Response userValidated = await dio.post(
+                                  "http://10.0.2.2:4000/auth/validate",
+                                  data: {'token': token});
+                              if (userValidated.statusCode == 200) {
+                                //passou nas 2 verificações
+                                final prefs =
+                                    await SharedPreferences.getInstance();
+                                userValidated.data = userValidated.data['data'];
+                                Usuario user = Usuario(
+                                    usuario: userValidated.data['username'],
+                                    email: userValidated.data['email'],
+                                    dataNascimento:
+                                        userValidated.data['date_birth'],
+                                    telefone: userValidated.data['phone'],
+                                    confirmacaoSenha: 'não');
+                                prefs.setString("data", jsonEncode(user));
+                                prefs.setString("userToken", token);
+                                Navigator.pushNamed(context, '/mainscreen');
+                              }
+                            } on DioError catch (e) {
+                              print(e);
+                              const snackBar = SnackBar(
+                                  content: Text("Erro interno do gateway"));
+                              ScaffoldMessenger.of(context).clearSnackBars();
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                            }
+                          }
+                        } on DioError catch (e) {
+                          switch (e.response?.statusCode) {
+                            case 400:
+                              passwordController.clear();
+                              usernameController.clear();
+                              const snackBar = SnackBar(
+                                  content:
+                                      Text("Dados invalidos ou incorretos."));
+                              ScaffoldMessenger.of(context).clearSnackBars();
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                              break;
+                            case 401:
+                              passwordController.clear();
+                              usernameController.clear();
+                              const snackBar = SnackBar(
+                                  content:
+                                      Text("Usuário e/ou senha incorretos."));
+                              ScaffoldMessenger.of(context).clearSnackBars();
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                              break;
+                            case 500:
+                              passwordController.clear();
+                              usernameController.clear();
+                              const snackBar = SnackBar(
+                                  content: Text(
+                                      "Erro do servidor. Por favor tente novamente mais tarde."));
+                              ScaffoldMessenger.of(context).clearSnackBars();
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                              break;
+                            default:
+                              break;
+                          }
+                        }
                       },
                       child: const Text(
                         'Realizar Login',
                         style: TextStyle(
                           color: Colors.black,
                         ),
-                        ),
+                      ),
                     ),
                   ],
                 ),
-    
               ],
             ),
           ),
