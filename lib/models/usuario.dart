@@ -1,14 +1,25 @@
 class Usuario {
-
-  String usuario; 
+  String usuario;
   String email;
-  DateTime dataNascimento;
+  String dataNascimento;
   String telefone;
   String sexo;
-  String senha;
   String confirmacaoSenha;
-  
-  Usuario({required this.usuario, required this.email, required this.dataNascimento, 
-    required this.telefone, this.sexo = "", required this.senha, required this.confirmacaoSenha});
 
+  Usuario(
+      {required this.usuario,
+      required this.email,
+      required this.dataNascimento,
+      required this.telefone,
+      this.sexo = "",
+      required this.confirmacaoSenha});
+
+  Map toJson() => {
+        'username': usuario,
+        'email': email,
+        'date_birth': dataNascimento,
+        'phone': telefone,
+        'gender': sexo,
+        'confirma': confirmacaoSenha
+      };
 }
