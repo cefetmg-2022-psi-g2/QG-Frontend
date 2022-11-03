@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:qg/widgets/card-pedidos.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shared_preferences_android/shared_preferences_android.dart';
 
 import '../models/pedidos.dart';
 
@@ -14,103 +16,129 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   List<Pedido> pedidos = [];
+  Map userData = {};
+  void loadUserData() async {
+    final prefs = await SharedPreferences.getInstance();
+    if (userData.isEmpty) {
+      String? dataRaw = await prefs.getString('data');
+      setState(() {
+        userData = jsonDecode(dataRaw!);
+      });
+    }
+  }
 
   Future<List<Pedido>> loadPedidos() async {
     var dio = Dio();
+    final prefs = await SharedPreferences.getInstance();
     List<Pedido> pedidosAPI = [];
+    String? userToken = await prefs.getString('userToken');
+
     Response response = await dio.get("http://10.0.2.2:3000/pedidos");
     response.data.forEach((pedido) {
       //print(pedido["name"];
-      Pedido p = new Pedido(item: pedido['name'], campus: pedido['campus'], predio: pedido['building_id'], complemento: pedido['localization'], categoria: pedido['category_id'], observacoes: pedido['description']);
+      print(pedido['campus']);
+      Pedido p = Pedido(
+          item: pedido['name'],
+          campus: pedido['campus'],
+          predio: pedido['building_id'],
+          complemento: pedido['localization'],
+          categoria: pedido['category_id'],
+          observacoes: pedido['description']);
       pedidosAPI.add(p);
     });
     return pedidosAPI;
   }
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      loadUserData();
+      loadPedidos().then((val) => {
+            setState(() {
+              pedidos = val;
+            })
+          });
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    loadPedidos().then((val) => {
-          setState(() {
-            pedidos = val;
-          })
-        });
     return SafeArea(
       child: Scaffold(
         drawer: Drawer(
-          child: ListView(
-            padding: EdgeInsets.all(12),
-            children: <Widget> [
-              Center(
-                child: Column(
-                  children: [
-                    Center(
-                      child: Icon(
-                        Icons.account_circle_rounded, 
-                        size: 200,
-                      ),
+          child: ListView(padding: EdgeInsets.all(12), children: <Widget>[
+            Center(
+              child: Column(
+                children: [
+                  Center(
+                    child: Icon(
+                      Icons.account_circle_rounded,
+                      size: 200,
                     ),
-                    SizedBox(width: 40),
-                    Container(
+                  ),
+                  SizedBox(width: 40),
+                  Container(
                       width: 220,
                       child: Align(
                         alignment: Alignment.center,
                         child: Text(
-                          "Nome do Usuário",
+                          userData.containsKey('name')
+                              ? userData['name']
+                              : 'carregando',
                           style: TextStyle(
                             fontSize: 22,
                           ),
                         ),
-                      )
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(bottom: 20),
-                      child: 
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "4,0",
-                              style: TextStyle(
-                                fontSize: 22,
-                              ),
-                            ),
-                            SizedBox(height: 8),
-                            Icon(
-                              Icons.star,
-                              color: Color(0xff1FFFBF),
-                            )
-                          ],
+                      )),
+                  Container(
+                    margin: EdgeInsets.only(bottom: 20),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "4,0",
+                          style: TextStyle(
+                            fontSize: 22,
+                          ),
                         ),
+                        SizedBox(height: 8),
+                        Icon(
+                          Icons.star,
+                          color: Color(0xff1FFFBF),
+                        )
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              ListTile(
+            ),
+            ListTile(
                 title: Text("Editar Dados"),
                 onTap: () {
                   Navigator.pushNamed(context, '/editardados');
-                }    /////// FUNÇÃO PARA IR PARA A TELA DE EDITAR DADOS /////////////
-              ),
-              const Divider(color: Colors.grey),
-              ListTile(
+                } /////// FUNÇÃO PARA IR PARA A TELA DE EDITAR DADOS /////////////
+                ),
+            const Divider(color: Colors.grey),
+            ListTile(
                 title: Text("Amigos"),
                 onTap: () {
                   Navigator.pushNamed(context, '/amigos');
-                }    /////// FUNÇÃO PARA IR PARA A TELA DE AMIGOS /////////////
-              ),
-              const Divider(color: Colors.grey),
-              ListTile(
+                } /////// FUNÇÃO PARA IR PARA A TELA DE AMIGOS /////////////
+                ),
+            const Divider(color: Colors.grey),
+            ListTile(
                 title: Text(
                   "Desativar Conta",
                   style: TextStyle(
                     color: Colors.red,
                   ),
                 ),
-                onTap: () {}    /////// FUNÇÃO PARA IR PARA EXCLUIR CONTA /////////////
-              )
-            ]
-          ),
+                onTap:
+                    () {} /////// FUNÇÃO PARA IR PARA EXCLUIR CONTA /////////////
+                )
+          ]),
         ),
         appBar: AppBar(
           leading: Builder(
@@ -127,11 +155,9 @@ class _MainScreenState extends State<MainScreen> {
             IconButton(
               icon: const Icon(Icons.notifications_active_rounded),
               tooltip: 'Notificações',
-
               onPressed: () {
                 Navigator.pushNamed(context, '/abrirnotificacoes');
               },
-
               color: Color.fromARGB(255, 95, 95, 95),
             ),
             const SizedBox(
