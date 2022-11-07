@@ -8,21 +8,25 @@ import 'dart:convert';
 import '../models/usuario.dart';
 
 class LoginUsuario extends StatelessWidget {
+
   LoginUsuario({Key? key}) : super(key: key);
   final passwordController = TextEditingController();
   final usernameController = TextEditingController();
+
+  final _formKey = GlobalKey<FormState>();
+
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Color.fromARGB(255, 255, 251, 251),
-        body: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
+        body: Form(
+          key: _formKey,
+          child: SingleChildScrollView(
+            child: ListView(
+              padding: const EdgeInsets.all(8.0),
+  
               children: [
                 CircleAvatar(
                   radius: 30,
@@ -48,21 +52,31 @@ class LoginUsuario extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 20),
-                TextField(
+                  
+                TextFormField(
                   controller: usernameController,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: "Username",
                   ),
+                  keyboardType: TextInputType.emailAddress,
+                  validator: (text){
+                    if(text != null &&(text.isEmpty || !text.contains("@"))) return "Email invállido!";
+                  },
                 ),
                 SizedBox(height: 8),
-                TextField(
+
+                
+                TextFormField(
                   controller: passwordController,
                   obscureText: true,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Senha*',
                   ),
+                  validator: (text){
+                    if(text != null &&(text.isEmpty || text.length < 6)) return "Senha inválida!";
+                  }
                 ),
                 SizedBox(
                   height: 30,
@@ -71,12 +85,15 @@ class LoginUsuario extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(
-                      "Esqueci minha senha?",
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w100,
-                      ),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: FlatButton(
+                        onPressed: (){},
+                        child: Text("Esqueci Minha Senha",
+                          textAlign: TextAlign.right,
+                        ),
+                        padding: EdgeInsets.zero,
+                      )
                     ),
                     SizedBox(
                       height: 15,
@@ -86,7 +103,8 @@ class LoginUsuario extends StatelessWidget {
                         primary: Color(0xff1FFFBF),
                       ),
                       onPressed: () async {
-                        var dio = Dio();
+                         if(_formKey.currentState!.validate()){
+                          var dio = Dio();
                         try {
                           Response response = await dio
                               .post("http://10.0.2.2:4000/auth/login", data: {
@@ -159,8 +177,10 @@ class LoginUsuario extends StatelessWidget {
                             default:
                               break;
                           }
+                          };
+
                         }
-                      },
+                      },                 
                       child: const Text(
                         'Realizar Login',
                         style: TextStyle(
@@ -169,7 +189,7 @@ class LoginUsuario extends StatelessWidget {
                       ),
                     ),
                   ],
-                ),
+                )
               ],
             ),
           ),

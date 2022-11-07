@@ -7,6 +7,12 @@ class Amigos extends StatefulWidget {
   State<Amigos> createState() => _AmigosState();
 }
 
+//**************************************************************************************************************
+//**************************************************************************************************************
+//AINDA TEM QUE CHAMAR OS AMIGOS, CRIAR UMA LIST ETC
+//**************************************************************************************************************
+//**************************************************************************************************************
+
 class _AmigosState extends State<Amigos> {
   @override
   Widget build(BuildContext context) {
@@ -50,6 +56,43 @@ class _AmigosState extends State<Amigos> {
                   )
                 ],
               ),
+              SizedBox(
+                height: 20,
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                color: Color(0xffC4C4C4),
+                margin: EdgeInsets.all(16),
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Text(
+                        "Adicionar Amigo",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      TextField(
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          hintText: "@Usuario",
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              ListView(
+                shrinkWrap: true,
+                children: [
+                  //for (Pedido pedido in pedidos) CardPedido(pedido: pedido)
+                ],
+              ),
             ],
           ),
         ),
@@ -57,3 +100,7 @@ class _AmigosState extends State<Amigos> {
     );
   }
 }
+
+
+
+

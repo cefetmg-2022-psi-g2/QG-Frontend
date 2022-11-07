@@ -20,8 +20,7 @@ class RealizarPedido extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Color.fromARGB(255, 255, 251, 251),
-        body: Padding(
-          padding: const EdgeInsets.all(8.0),
+        body: Form(
           child: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,

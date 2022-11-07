@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class EditarDados extends StatefulWidget {
-  const EditarDados({super.key});
 
   @override
   State<EditarDados> createState() => _EditarDadosState();
@@ -13,12 +12,10 @@ class _EditarDadosState extends State<EditarDados> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Color.fromARGB(255, 255, 251, 251),
-        body: Padding(
-          padding: const EdgeInsets.all(8.0),
+        body: Form(
           child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: ListView(
+              padding: const EdgeInsets.all(8.0),
               children: [
                 CircleAvatar(
                   radius: 30,
@@ -42,28 +39,38 @@ class _EditarDadosState extends State<EditarDados> {
                   ),
                 ),
                 SizedBox(height: 20),
-                TextField(
+                TextFormField(
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: "Usuario*",
                   ),
+                  validator: (text){
+                    if(text != null && text.isEmpty) return "Usuario inválido!";
+                  },
                 ),
                 SizedBox(height: 8),
-                TextField(
+                TextFormField(
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: "Email",
                   ),
+                  keyboardType: TextInputType.emailAddress,
+                  validator: (text){
+                    if(text != null &&(text.isEmpty || !text.contains("@"))) return "Email invállido!";
+                  },
                 ),
                 SizedBox(height: 8),
-                TextField(
+                TextFormField(
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: "Telefone",
                   ),
+                  validator: (text){
+                    if(text != null && text.isEmpty) return "Telefone inválido!";
+                  },
                 ),
                 SizedBox(height: 8),
-                TextField(
+                TextFormField(
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: "Sexo",
@@ -74,14 +81,6 @@ class _EditarDadosState extends State<EditarDados> {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(
-                      "Os campos com * são obrigatórios!",
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w100,
-                      ),
-                    ),
-                    SizedBox(height: 15,),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         primary: Color(0xff1FFFBF),
