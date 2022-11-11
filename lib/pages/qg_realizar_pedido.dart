@@ -9,8 +9,8 @@ class RealizarPedido extends StatelessWidget {
   final GlobalKey<FormState> _formKey = new GlobalKey();
   RealizarPedido({Key? key}) : super(key: key);
   bool _validate = false;
-  int campusValue = 1;
-  int categoriaValue = 1;
+  String campusValue = '1';
+  String categoriaValue = '1';
 
   final TextEditingController controllerName = TextEditingController();
   final TextEditingController controllerBuilding = TextEditingController();
@@ -84,9 +84,9 @@ class RealizarPedido extends StatelessWidget {
                                 border: OutlineInputBorder(),
                                 labelText: "Campus",
                               ),
-                          items: [DropdownMenuItem(child: Text("1"), value: 1,),
-                          DropdownMenuItem(child: Text("2"), value: 2,),],
-                          onChanged: (int? newValue) {
+                          items: [DropdownMenuItem(child: Text("1"), value: '1',),
+                          DropdownMenuItem(child: Text("2"), value: '2',),],
+                          onChanged: (String? newValue) {
                             campusValue = newValue!;
                           }),
                           SizedBox(height: 8),
@@ -130,9 +130,9 @@ class RealizarPedido extends StatelessWidget {
                                 border: OutlineInputBorder(),
                                 labelText: "Categoria",
                               ),
-                              items: [DropdownMenuItem(child: Text("Eletrônico"), value: 1,),
-                              DropdownMenuItem(child: Text("Material"), value: 2,),],
-                              onChanged: (int? newValue) {
+                              items: [DropdownMenuItem(child: Text("Eletrônico"), value: '1',),
+                              DropdownMenuItem(child: Text("Material"), value: '2',),],
+                              onChanged: (String? newValue) {
                                 categoriaValue = newValue!;
                               }),
                               SizedBox(height: 8),
@@ -179,6 +179,10 @@ class RealizarPedido extends StatelessWidget {
                           primary: Color(0xff1FFFBF),
                         ),
                         onPressed: () async {
+                                                      print(controllerName.text);
+                            print(categoriaValue);
+                            print(controllerBuilding.text);
+                            print(campusValue);
                           if (_formKey.currentState!.validate()) {
                             var dio = Dio();
                             if (controllerBuilding.text.isEmpty &&
@@ -192,6 +196,7 @@ class RealizarPedido extends StatelessWidget {
                                 userToken == null) {
                               return;
                             }
+
                             try {
                               Response response = await dio
                                   .post("http://10.0.2.2:3000/pedidos", data: {

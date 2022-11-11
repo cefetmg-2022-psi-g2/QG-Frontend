@@ -300,8 +300,6 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                                     'phone': controllerPhone.text,
                                     'gender': sexoValue
                                   });
-                                   print("oi");
-                                  print(response);
                               if (response.statusCode == 200) {
                                 // ignore: use_build_context_synchronously
                                 login(controllerName.text,
