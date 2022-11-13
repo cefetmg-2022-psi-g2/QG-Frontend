@@ -188,7 +188,7 @@ class LoginUsuario extends StatelessWidget {
                       ),
                       Align(
                         alignment: Alignment.center,
-                        child: FlatButton(
+                        child: TextButton(
                           onPressed: () {},
                           child: Text(
                             "Esqueci Minha Senha",
