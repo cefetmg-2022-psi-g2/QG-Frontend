@@ -7,6 +7,7 @@ import 'package:qg/pages/qg_primeiro_acesso.dart';
 import 'package:qg/pages/qg_tela_login.dart';
 import 'package:qg/pages/qg_tela_cadastro.dart';
 import 'package:qg/pages/qg_notificacoes.dart';
+import 'package:qg/pages/qg_detalhes_pedido.dart';
 
 void main() {
   runApp(const MyApp());
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
       '/mainscreen':(context) => MainScreen(),
       '/editardados': (context) => EditarDados(),
       '/amigos': (context) => Amigos(),
+      '/detalhespedido':(context) => DetalhesPedido(),
     },
     );
   }
