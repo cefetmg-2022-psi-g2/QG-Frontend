@@ -28,7 +28,6 @@ class MyApp extends StatelessWidget {
       '/realizarlogin':(context) => LoginUsuario(),
       '/realizarcadastro':(context) => CadastroUsuario(),
       '/abrirnotificacoes':(context) => AbrirNotificacoes(),
-      '/mainscreen':(context) => MainScreen(),
       '/editardados': (context) => EditarDados(),
       '/amigos': (context) => Amigos(),
       '/detalhespedido':(context) => DetalhesPedido(),
