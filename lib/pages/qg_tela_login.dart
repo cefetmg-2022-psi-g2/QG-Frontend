@@ -123,8 +123,7 @@ class LoginUsuario extends StatelessWidget {
                                         confirmacaoSenha: 'não');
                                     prefs.setString("data", jsonEncode(user));
                                     prefs.setString("userToken", token);
-                                    Navigator.pushNamed(
-                                        context, '/mainscreen');
+                                    Navigator.pushNamed(context, '/mainscreen');
                                   }
                                 } on DioError catch (e) {
                                   print(e);
@@ -188,7 +187,7 @@ class LoginUsuario extends StatelessWidget {
                       ),
                       Align(
                         alignment: Alignment.center,
-                        child: ElevatedButton(
+                        child: FlatButton(
                           onPressed: () {},
                           child: Text(
                             "Esqueci Minha Senha",
