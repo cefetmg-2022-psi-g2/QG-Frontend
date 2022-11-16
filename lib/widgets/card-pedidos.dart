@@ -13,7 +13,7 @@ class CardPedido extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        FlatButton(
+        ElevatedButton(
           onPressed: () {
             print("a");
           },
