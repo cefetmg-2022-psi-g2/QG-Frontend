@@ -185,21 +185,7 @@ class LoginUsuario extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Align(
-                        alignment: Alignment.center,
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          child: Text(
-                            "Esqueci Minha Senha",
-                            style: TextStyle(
-                              fontWeight: FontWeight.w200,
-                              fontSize: 15,
-                            ),
-                            textAlign: TextAlign.left,
-                          ),
-                          
-                        ),
-                      ),
+
                     ],
                   )
                 ],

@@ -20,6 +20,6 @@ class Usuario {
         'date_birth': dataNascimento,
         'phone': telefone,
         'gender': sexo,
-        'confirma': confirmacaoSenha
+        'confirma': confirmacaoSenha,
       };
 }

@@ -11,9 +11,9 @@ class RealizarPedido extends StatelessWidget {
   bool _validate = false;
   String campusValue = '1';
   String categoriaValue = '1';
+  String predioValue = '1';
 
   final TextEditingController controllerName = TextEditingController();
-  final TextEditingController controllerBuilding = TextEditingController();
   final TextEditingController controllerPlace = TextEditingController();
   final TextEditingController controllerObs = TextEditingController();
 
@@ -84,28 +84,50 @@ class RealizarPedido extends StatelessWidget {
                                 border: OutlineInputBorder(),
                                 labelText: "Campus",
                               ),
-                          items: [DropdownMenuItem(child: Text("1"), value: '1',),
-                          DropdownMenuItem(child: Text("2"), value: '2',),],
-                          onChanged: (String? newValue) {
-                            campusValue = newValue!;
-                          }),
+                              items: [
+                                DropdownMenuItem(
+                                  child: Text("1"),
+                                  value: '1',
+                                ),
+                                DropdownMenuItem(
+                                  child: Text("2"),
+                                  value: '2',
+                                ),
+                              ],
+                              onChanged: (String? newValue) {
+                                campusValue = newValue!;
+                              }),
                           SizedBox(height: 8),
-                          TextFormField(
-                            controller: controllerBuilding,
-                            decoration: const InputDecoration(
-                              border: OutlineInputBorder(),
-                              labelText: "Prédio*",
-                            ),
-                            validator: (text) {
-                              String patttern = r'[a-zA-Z0-9]';
-                              RegExp regExp = new RegExp(patttern);
-                              if (text == null || text.length == 0) {
-                                return "Informe um prédio para o pedido";
-                              } else if (!regExp.hasMatch(text)) {
-                                return "Insira caracteres válidos";
-                              }
-                            },
-                          ),
+                          DropdownButtonFormField(
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(),
+                                labelText: "Prédio",
+                              ),
+                              items: [
+                                DropdownMenuItem(
+                                  child: Text("Ar Livre"),
+                                  value: '99',
+                                ),
+                                DropdownMenuItem(
+                                  child: Text("Prédio Principal"),
+                                  value: '98',
+                                ),
+                                DropdownMenuItem(
+                                  child: Text("Prédio 20"),
+                                  value: '20',
+                                ),
+                                DropdownMenuItem(
+                                  child: Text("Prédio 12"),
+                                  value: '12',
+                                ),
+                                DropdownMenuItem(
+                                  child: Text("Prédio 19"),
+                                  value: '19',
+                                ),
+                              ],
+                              onChanged: (String? newValue) {
+                                predioValue = newValue!;
+                              }),
                           SizedBox(height: 8),
                           TextFormField(
                             controller: controllerPlace,
@@ -130,12 +152,20 @@ class RealizarPedido extends StatelessWidget {
                                 border: OutlineInputBorder(),
                                 labelText: "Categoria",
                               ),
-                              items: [DropdownMenuItem(child: Text("Eletrônico"), value: '1',),
-                              DropdownMenuItem(child: Text("Material"), value: '2',),],
+                              items: [
+                                DropdownMenuItem(
+                                  child: Text("Eletrônico"),
+                                  value: '1',
+                                ),
+                                DropdownMenuItem(
+                                  child: Text("Material"),
+                                  value: '2',
+                                ),
+                              ],
                               onChanged: (String? newValue) {
                                 categoriaValue = newValue!;
                               }),
-                              SizedBox(height: 8),
+                          SizedBox(height: 8),
                           TextFormField(
                             controller: controllerObs,
                             decoration: const InputDecoration(
@@ -179,14 +209,13 @@ class RealizarPedido extends StatelessWidget {
                           primary: Color(0xff1FFFBF),
                         ),
                         onPressed: () async {
-                                                      print(controllerName.text);
-                            print(categoriaValue);
-                            print(controllerBuilding.text);
-                            print(campusValue);
+                          print(controllerName.text);
+                          print(categoriaValue);
+                          print(predioValue);
+                          print(campusValue);
                           if (_formKey.currentState!.validate()) {
                             var dio = Dio();
-                            if (controllerBuilding.text.isEmpty &&
-                                controllerName.text.isEmpty &&
+                            if (controllerName.text.isEmpty &&
                                 controllerPlace.text.isEmpty) {
                               return;
                             }
@@ -198,16 +227,17 @@ class RealizarPedido extends StatelessWidget {
                             }
 
                             try {
-                              Response response = await dio
-                                  .post("http://164.92.92.152:3000/pedidos", data: {
-                                'token': userToken,
-                                'name': controllerName.text,
-                                'category_id': categoriaValue,
-                                'building_id': controllerBuilding.text,
-                                'description': controllerObs.text,
-                                'localization': controllerPlace.text,
-                                'campus': campusValue
-                              });
+                              Response response = await dio.post(
+                                  "http://164.92.92.152:3000/pedidos",
+                                  data: {
+                                    'token': userToken,
+                                    'name': controllerName.text,
+                                    'category_id': categoriaValue,
+                                    'building_id': predioValue,
+                                    'description': controllerObs.text,
+                                    'localization': controllerPlace.text,
+                                    'campus': campusValue
+                                  });
                               if (response.statusCode == 200) {
                                 const snackBar = SnackBar(
                                     content:

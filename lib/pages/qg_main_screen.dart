@@ -161,21 +161,10 @@ class _MainScreenState extends State<MainScreen> {
               color: Color.fromARGB(255, 95, 95, 95),
             ),
             const SizedBox(
-              width: 15,
-            ),
-            IconButton(
-              icon: const Icon(Icons.filter_list_rounded),
-              tooltip: 'Filtro',
-              onPressed: () {
-                //coloca a função aqui
-              },
-              color: Color.fromARGB(255, 95, 95, 95),
-            ),
-            const SizedBox(
               width: 12,
             ),
           ],
-          backgroundColor: Color.fromARGB(255, 255, 251, 251),
+           backgroundColor: Color.fromARGB(255, 255, 251, 251),
         ),
         backgroundColor: Color(0xffEEEEEE),
         body: Padding(
@@ -183,8 +172,13 @@ class _MainScreenState extends State<MainScreen> {
             child: Column(
               children: [
                 Flexible(
-                  child: ListView(
+                  child: GridView.count(
+                    padding: EdgeInsets.all(2),
+                    crossAxisCount: 2,
                     shrinkWrap: true,
+                    mainAxisSpacing: 20,
+                    crossAxisSpacing: 0,
+                    childAspectRatio: 1.5,
                     children: [
                       for (Pedido pedido in pedidos) CardPedido(pedido: pedido)
                     ],

@@ -6,10 +6,10 @@ import '../models/pedidos.dart';
 import '../models/usuario.dart';
 
 class CardPedido extends StatelessWidget {
-  CardPedido({Key? key, required this.pedido}) : super(key: key);
+  CardPedido({Key? key, required this.pedido, required this.usuario}) : super(key: key);
 
   final Pedido pedido;
-
+  final Usuario usuario;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +36,7 @@ class CardPedido extends StatelessWidget {
       children: [
         FlatButton(
           onPressed: () {
-            Navigator.pushNamed(context, '/detalhespedido');
+            print("a");
           },
           child: Container(
             alignment: Alignment.centerLeft,
@@ -73,7 +73,7 @@ class CardPedido extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          "USUARIO",
+                          "${usuario.usuario}",
                           style: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.w500,
