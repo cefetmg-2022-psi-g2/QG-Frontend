@@ -199,7 +199,7 @@ class RealizarPedido extends StatelessWidget {
 
                             try {
                               Response response = await dio
-                                  .post("http://10.0.2.2:3000/pedidos", data: {
+                                  .post("http://164.92.92.152:3000/pedidos", data: {
                                 'token': userToken,
                                 'name': controllerName.text,
                                 'category_id': categoriaValue,

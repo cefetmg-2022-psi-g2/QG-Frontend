@@ -33,7 +33,7 @@ class _MainScreenState extends State<MainScreen> {
     List<Pedido> pedidosAPI = [];
     String? userToken = await prefs.getString('userToken');
 
-    Response response = await dio.get("http://10.0.2.2:3000/pedidos");
+    Response response = await dio.get("http://164.92.92.152:3000/pedidos");
     response.data.forEach((pedido) {
       //print(pedido["name"];
       print(pedido['campus']);

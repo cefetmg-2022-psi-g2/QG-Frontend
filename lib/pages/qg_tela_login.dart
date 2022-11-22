@@ -96,7 +96,7 @@ class LoginUsuario extends StatelessWidget {
                             var dio = Dio();
                             try {
                               Response response = await dio.post(
-                                  "http://10.0.2.2:4000/auth/login",
+                                  "http://164.92.92.152:4000/auth/login",
                                   data: {
                                     'username': usernameController.text,
                                     'password': passwordController.text
@@ -105,7 +105,7 @@ class LoginUsuario extends StatelessWidget {
                                 String token = response.data['token'];
                                 try {
                                   Response userValidated = await dio.post(
-                                      "http://10.0.2.2:4000/auth/validate",
+                                      "http://164.92.92.152:4000/auth/validate",
                                       data: {'token': token});
                                   if (userValidated.statusCode == 200) {
                                     //passou nas 2 verificações

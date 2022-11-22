@@ -43,13 +43,13 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
     void login(String username, String password, BuildContext context) async {
       var dio = Dio();
       try {
-        Response response = await dio.post("http://10.0.2.2:4000/auth/login",
+        Response response = await dio.post("http://164.92.92.152:4000/auth/login",
             data: {'username': username, 'password': password});
         if (response.statusCode == 200) {
           String token = response.data['token'];
           try {
             Response userValidated = await dio.post(
-                "http://10.0.2.2:4000/auth/validate",
+                "http://164.92.92.152:4000/auth/validate",
                 data: {'token': token});
             if (userValidated.statusCode == 200) {
               //passou nas 2 verificações
@@ -290,7 +290,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                             }
                             try {
                               Response response = await dio.post(
-                                  "http://10.0.2.2:4000/auth/signup",
+                                  "http://164.92.92.152:4000/auth/signup",
                                   data: {
                                     'name': controllerName.text,
                                     'username': controllerName.text,
