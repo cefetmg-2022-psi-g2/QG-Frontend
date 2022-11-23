@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_launcher_icons/utils.dart';
 import 'package:qg/widgets/card-pedidos.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -21,7 +22,6 @@ class AbrirNotificacoes extends State<Notificacoes> {
     final prefs = await SharedPreferences.getInstance();
     List<Pedido> pedidosAPI = [];
     String? userToken = await prefs.getString('userToken');
-    print(userToken);
 
     Response response = await dio
         .get("http://164.92.92.152:3000/pedidos/active?token=$userToken");
@@ -103,8 +103,14 @@ class AbrirNotificacoes extends State<Notificacoes> {
                       children: [
                         for (Pedido pedido in pedidosAtivos)
                           ListTile(
-                              title: Text(""),
-                              onTap: () {} /////// Função apra ir para o pedido
+                              title: Text(pedido.item),
+                              onTap: () async {
+                                final prefs =
+                                    await SharedPreferences.getInstance();
+                                prefs.setString("id", pedido.id.toString());
+                                Navigator.pushNamed(
+                                    context, '/finalizarpedido');
+                              } /////// Função apra ir para o pedido
                               ),
                       ],
                     ),

@@ -34,7 +34,7 @@ class AbrirFinalizarPedido extends State<FinalizarPedido> {
     var dio = Dio();
     final prefs = await SharedPreferences.getInstance();
     String? id = await prefs.getString('id');
-    Response response = await dio.get("http://10.0.2.2:3000/pedidos/$id");
+    Response response = await dio.get("http://164.92.92.152:3000/pedidos/$id");
     Pedido p = Pedido(
         id: response.data['id'],
         item: response.data['name'],
@@ -126,8 +126,58 @@ class AbrirFinalizarPedido extends State<FinalizarPedido> {
                     icon: Icon(
                       Icons.thumb_up_sharp,
                     ),
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/mainscreen');
+                    onPressed: () async {
+                      var dio = Dio();
+                      final prefs = await SharedPreferences.getInstance();
+                      String? userToken = await prefs.getString('userToken');
+
+                      try {
+                        Response response = await dio.post(
+                            "http://164.92.92.152:3000/pedidos/finish/${pedido.id}",
+                            data: {"token": userToken, "rating": "+1"});
+                        if (response.statusCode == 200) {
+                          Navigator.pushNamed(context, '/mainscreen');
+                          const snackBar =
+                              SnackBar(content: Text("Pedido Atendido."));
+                          ScaffoldMessenger.of(context).clearSnackBars();
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        }
+                      } on DioError catch (e) {
+                        print(e.response?.statusCode);
+                        switch (e.response?.statusCode) {
+                          case 400:
+                            const snackBar = SnackBar(
+                                content: Text(
+                                    "Erro. Recarregue e tente novamente."));
+                            ScaffoldMessenger.of(context).clearSnackBars();
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                            break;
+                          case 409:
+                            const snackBar = SnackBar(
+                                content: Text(
+                                    "Pedido não existe ou já foi atendido."));
+                            ScaffoldMessenger.of(context).clearSnackBars();
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                            break;
+                          case 500:
+                            const snackBar = SnackBar(
+                                content: Text(
+                                    "Erro do servidor. Por favor tente novamente mais tarde."));
+                            ScaffoldMessenger.of(context).clearSnackBars();
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                            break;
+                          default:
+                            const snackBar =
+                                SnackBar(content: Text("Não autorizado."));
+                            ScaffoldMessenger.of(context).clearSnackBars();
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                            break;
+                        }
+                      }
                     },
                     iconSize: 40,
                   ),
@@ -138,8 +188,58 @@ class AbrirFinalizarPedido extends State<FinalizarPedido> {
                     icon: Icon(
                       Icons.thumb_down_sharp,
                     ),
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/mainscreen');
+                    onPressed: () async {
+                      var dio = Dio();
+                      final prefs = await SharedPreferences.getInstance();
+                      String? userToken = await prefs.getString('userToken');
+
+                      try {
+                        Response response = await dio.post(
+                            "http://164.92.92.152:3000/pedidos/finish/${pedido.id}",
+                            data: {"token": userToken, "rating": "-1"});
+                        if (response.statusCode == 200) {
+                          Navigator.pushNamed(context, '/mainscreen');
+                          const snackBar =
+                              SnackBar(content: Text("Pedido Atendido."));
+                          ScaffoldMessenger.of(context).clearSnackBars();
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        }
+                      } on DioError catch (e) {
+                        print(e.response?.statusCode);
+                        switch (e.response?.statusCode) {
+                          case 400:
+                            const snackBar = SnackBar(
+                                content: Text(
+                                    "Erro. Recarregue e tente novamente."));
+                            ScaffoldMessenger.of(context).clearSnackBars();
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                            break;
+                          case 409:
+                            const snackBar = SnackBar(
+                                content: Text(
+                                    "Pedido não existe ou já foi atendido."));
+                            ScaffoldMessenger.of(context).clearSnackBars();
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                            break;
+                          case 500:
+                            const snackBar = SnackBar(
+                                content: Text(
+                                    "Erro do servidor. Por favor tente novamente mais tarde."));
+                            ScaffoldMessenger.of(context).clearSnackBars();
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                            break;
+                          default:
+                            const snackBar =
+                                SnackBar(content: Text("Não autorizado."));
+                            ScaffoldMessenger.of(context).clearSnackBars();
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                            break;
+                        }
+                      }
                     },
                     iconSize: 40,
                   ),
@@ -148,8 +248,54 @@ class AbrirFinalizarPedido extends State<FinalizarPedido> {
               MaterialButton(
                 elevation: 5.0,
                 child: Text('Pular'),
-                onPressed: () {
-                  Navigator.pushNamed(context, '/mainscreen');
+                onPressed: () async {
+                  var dio = Dio();
+                  final prefs = await SharedPreferences.getInstance();
+                  String? userToken = await prefs.getString('userToken');
+
+                  try {
+                    Response response = await dio.post(
+                        "http://164.92.92.152:3000/pedidos/finish/${pedido.id}",
+                        data: {"token": userToken, "rating": "0"});
+                    if (response.statusCode == 200) {
+                      Navigator.pushNamed(context, '/mainscreen');
+                      const snackBar =
+                          SnackBar(content: Text("Pedido Atendido."));
+                      ScaffoldMessenger.of(context).clearSnackBars();
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    }
+                  } on DioError catch (e) {
+                    print(e.response?.statusCode);
+                    switch (e.response?.statusCode) {
+                      case 400:
+                        const snackBar = SnackBar(
+                            content:
+                                Text("Erro. Recarregue e tente novamente."));
+                        ScaffoldMessenger.of(context).clearSnackBars();
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        break;
+                      case 409:
+                        const snackBar = SnackBar(
+                            content:
+                                Text("Pedido não existe ou já foi atendido."));
+                        ScaffoldMessenger.of(context).clearSnackBars();
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        break;
+                      case 500:
+                        const snackBar = SnackBar(
+                            content: Text(
+                                "Erro do servidor. Por favor tente novamente mais tarde."));
+                        ScaffoldMessenger.of(context).clearSnackBars();
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        break;
+                      default:
+                        const snackBar =
+                            SnackBar(content: Text("Não autorizado."));
+                        ScaffoldMessenger.of(context).clearSnackBars();
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        break;
+                    }
+                  }
                 },
               )
             ],
@@ -255,6 +401,28 @@ class AbrirFinalizarPedido extends State<FinalizarPedido> {
               ),
               SizedBox(
                 height: 20,
+              ),
+              Row(
+                children: [
+                  Text(
+                    "Item: ",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 15,
+                    ),
+                  ),
+                  Text(
+                    pedido.item,
+                    style: TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 15,
+                    ),
+                  ),
+                ],
+              ),
+              Divider(
+                indent: 10,
+                endIndent: 10,
               ),
               Row(
                 children: [

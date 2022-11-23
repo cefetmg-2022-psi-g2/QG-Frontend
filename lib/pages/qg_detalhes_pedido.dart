@@ -126,6 +126,9 @@ class _DetalhesPedido extends State<DetalhesPedido> {
               SizedBox(
                 height: 40,
               ),
+              Container(
+                color: Colors.blue,
+              ),
 
               // // Imagem vai até aqui
               // Divider(
@@ -369,6 +372,10 @@ class _DetalhesPedido extends State<DetalhesPedido> {
                             data: {"token": userToken});
                         if (response.statusCode == 200) {
                           Navigator.pushNamed(context, '/mainscreen');
+                          const snackBar =
+                              SnackBar(content: Text("Pedido Atendido."));
+                          ScaffoldMessenger.of(context).clearSnackBars();
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         }
                       } on DioError catch (e) {
                         print(e.response?.data);

@@ -45,11 +45,9 @@ class _MainScreenState extends State<MainScreen> {
           predio: pedido['building_id'],
           complemento: pedido['localization'],
           categoria: pedido['category_id'],
-          observacoes: pedido['description']);
-      // Response responsePedido =
-      //     await dio.get("http://164.92.92.152:3000/pedidos/${p.id}");
-      // p.reqName = responsePedido.data["requester"]["username"];
-      // p.score = responsePedido.data["requester"]["score"].toDouble();
+          observacoes: pedido['description'],
+          reqName: pedido['requester']['username'],
+          score: pedido['requester']['score'].toDouble());
       pedidosAPI.add(p);
     });
     return pedidosAPI;
