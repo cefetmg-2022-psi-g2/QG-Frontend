@@ -2,15 +2,88 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:dio/dio.dart';
+import 'package:qg/models/pedidos.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shared_preferences_android/shared_preferences_android.dart';
 import 'dart:convert';
 import '../models/usuario.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class FinalizarPedido extends StatelessWidget {
+class FinalizarPedido extends StatefulWidget {
+  const FinalizarPedido({Key? key}) : super(key: key);
+  @override
+  State<FinalizarPedido> createState() => AbrirFinalizarPedido();
+}
 
+class AbrirFinalizarPedido extends State<FinalizarPedido> {
+  Pedido pedido = Pedido(
+      id: 0,
+      item: "",
+      campus: 0,
+      predio: 0,
+      complemento: "",
+      categoria: 0,
+      observacoes: "");
+  String textoPredio = "";
+  String campus = "";
+  String requester = "";
+  double score = 0;
+  String observacoes = "";
 
+  Future<Pedido> loadPedido() async {
+    var dio = Dio();
+    final prefs = await SharedPreferences.getInstance();
+    String? id = await prefs.getString('id');
+    Response response = await dio.get("http://10.0.2.2:3000/pedidos/$id");
+    Pedido p = Pedido(
+        id: response.data['id'],
+        item: response.data['name'],
+        campus: response.data['campus'],
+        predio: response.data['building_id'],
+        complemento: response.data['localization'],
+        categoria: response.data['category_id'],
+        observacoes: response.data['description']);
+    return p;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      loadPedido().then((val) => {
+            setState(() {
+              pedido = val;
+              campus = pedido.campus.toString();
+              observacoes = pedido.observacoes!;
+              switch (pedido.predio) {
+                case 97:
+                  {
+                    textoPredio = 'DECOM';
+                    break;
+                  }
+                  ;
+                case 98:
+                  {
+                    textoPredio = 'Prédio Principal';
+                    break;
+                  }
+                  ;
+                case 99:
+                  {
+                    textoPredio = 'Ar Livre';
+                    break;
+                  }
+                  ;
+                default:
+                  {
+                    textoPredio = 'P${pedido.predio}';
+                    break;
+                  }
+              }
+            })
+          });
+    });
+  }
 
   createAlertDialog(BuildContext context) {
     return showDialog(
@@ -156,7 +229,8 @@ class FinalizarPedido extends StatelessWidget {
                             width: 1,
                             height: 35,
                             child: const DecoratedBox(
-                              decoration: const BoxDecoration(color: Colors.grey),
+                              decoration:
+                                  const BoxDecoration(color: Colors.grey),
                             ),
                           ),
                           SizedBox(
@@ -192,7 +266,7 @@ class FinalizarPedido extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "Cefet Campus I",
+                    "Cefet Campus $campus",
                     style: TextStyle(
                       fontWeight: FontWeight.w400,
                       fontSize: 15,
@@ -214,7 +288,7 @@ class FinalizarPedido extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "Principal",
+                    textoPredio,
                     style: TextStyle(
                       fontWeight: FontWeight.w400,
                       fontSize: 15,
@@ -236,7 +310,7 @@ class FinalizarPedido extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "Corredor Terceiro Andar",
+                    pedido.complemento,
                     style: TextStyle(
                       fontWeight: FontWeight.w400,
                       fontSize: 15,
@@ -258,7 +332,7 @@ class FinalizarPedido extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "Do tipo C por favor",
+                    observacoes,
                     style: TextStyle(
                       fontWeight: FontWeight.w400,
                       fontSize: 15,

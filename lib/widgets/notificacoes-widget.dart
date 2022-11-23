@@ -6,7 +6,8 @@ import '../models/pedidos.dart';
 import '../models/usuario.dart';
 
 class CardPedido extends StatelessWidget {
-  CardPedido({Key? key, required this.pedido, required this.usuario}) : super(key: key);
+  CardPedido({Key? key, required this.pedido, required this.usuario})
+      : super(key: key);
 
   final Pedido pedido;
   final Usuario usuario;
@@ -14,27 +15,34 @@ class CardPedido extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String textoPredio;
-    switch(pedido.predio){
-      case 97: {
-        textoPredio = 'DECOM';
-        break;
-      };
-      case 98: {
-        textoPredio = 'Prédio Principal';
-        break;
-      };
-      case 99: {
-        textoPredio = 'Ar Livre';
-        break;
-      };
-      default: {
-        textoPredio = 'P${pedido.predio}';
-        break;
-      }
+    switch (pedido.predio) {
+      case 97:
+        {
+          textoPredio = 'DECOM';
+          break;
+        }
+        ;
+      case 98:
+        {
+          textoPredio = 'Prédio Principal';
+          break;
+        }
+        ;
+      case 99:
+        {
+          textoPredio = 'Ar Livre';
+          break;
+        }
+        ;
+      default:
+        {
+          textoPredio = 'P${pedido.predio}';
+          break;
+        }
     }
     return Column(
       children: [
-        FlatButton(
+        ElevatedButton(
           onPressed: () {
             print("a");
           },
@@ -126,7 +134,7 @@ class CardPedido extends StatelessWidget {
                       "C${pedido.campus}-${textoPredio} - ${pedido.complemento}",
                       //97 - DECOM
                       //98 - Prédio Principal
-                      //99 - Ar Livre 
+                      //99 - Ar Livre
                       style: TextStyle(
                         fontSize: 8,
                       ),

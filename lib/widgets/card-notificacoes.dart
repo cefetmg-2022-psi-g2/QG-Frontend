@@ -20,27 +20,34 @@ class CardNotificacao extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String textoPredio;
-    switch(pedido.predio){
-      case 97: {
-        textoPredio = 'DECOM';
-        break;
-      };
-      case 98: {
-        textoPredio = 'Prédio Principal';
-        break;
-      };
-      case 99: {
-        textoPredio = 'Ar Livre';
-        break;
-      };
-      default: {
-        textoPredio = 'P${pedido.predio}';
-        break;
-      }
+    switch (pedido.predio) {
+      case 97:
+        {
+          textoPredio = 'DECOM';
+          break;
+        }
+        ;
+      case 98:
+        {
+          textoPredio = 'Prédio Principal';
+          break;
+        }
+        ;
+      case 99:
+        {
+          textoPredio = 'Ar Livre';
+          break;
+        }
+        ;
+      default:
+        {
+          textoPredio = 'P${pedido.predio}';
+          break;
+        }
     }
     return Column(
       children: [
-        FlatButton(
+        ElevatedButton(
           onPressed: () {
             print("a");
           },

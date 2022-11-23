@@ -5,6 +5,7 @@ class Usuario {
   String telefone;
   String sexo;
   String confirmacaoSenha;
+  double score;
 
   Usuario(
       {required this.usuario,
@@ -12,7 +13,8 @@ class Usuario {
       required this.dataNascimento,
       required this.telefone,
       this.sexo = "",
-      required this.confirmacaoSenha});
+      required this.confirmacaoSenha,
+      this.score = 0.0});
 
   Map toJson() => {
         'username': usuario,
@@ -21,5 +23,6 @@ class Usuario {
         'phone': telefone,
         'gender': sexo,
         'confirma': confirmacaoSenha,
+        'score': score
       };
 }

@@ -114,13 +114,14 @@ class LoginUsuario extends StatelessWidget {
                                     userValidated.data =
                                         userValidated.data['data'];
                                     Usuario user = Usuario(
-                                        usuario:
-                                            userValidated.data['username'],
+                                        usuario: userValidated.data['username'],
                                         email: userValidated.data['email'],
                                         dataNascimento:
                                             userValidated.data['date_birth'],
                                         telefone: userValidated.data['phone'],
-                                        confirmacaoSenha: 'não');
+                                        confirmacaoSenha: 'não',
+                                        score: userValidated.data["score"]
+                                            .toDouble());
                                     prefs.setString("data", jsonEncode(user));
                                     prefs.setString("userToken", token);
                                     Navigator.pushNamed(context, '/mainscreen');
@@ -128,8 +129,7 @@ class LoginUsuario extends StatelessWidget {
                                 } on DioError catch (e) {
                                   print(e);
                                   const snackBar = SnackBar(
-                                      content:
-                                          Text("Erro interno do gateway"));
+                                      content: Text("Erro interno do gateway"));
                                   ScaffoldMessenger.of(context)
                                       .clearSnackBars();
                                   ScaffoldMessenger.of(context)
@@ -185,7 +185,6 @@ class LoginUsuario extends StatelessWidget {
                           ),
                         ),
                       ),
-
                     ],
                   )
                 ],

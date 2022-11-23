@@ -17,6 +17,8 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   List<Pedido> pedidos = [];
   Map userData = {};
+  String username = "Carregando";
+  String score = "0.0";
   void loadUserData() async {
     final prefs = await SharedPreferences.getInstance();
     if (userData.isEmpty) {
@@ -34,16 +36,20 @@ class _MainScreenState extends State<MainScreen> {
     String? userToken = await prefs.getString('userToken');
 
     Response response = await dio.get("http://164.92.92.152:3000/pedidos");
-    response.data.forEach((pedido) {
+    response.data.forEach((pedido) async {
       //print(pedido["name"];
-      print(pedido['campus']);
       Pedido p = Pedido(
+          id: pedido['id'],
           item: pedido['name'],
           campus: pedido['campus'],
           predio: pedido['building_id'],
           complemento: pedido['localization'],
           categoria: pedido['category_id'],
           observacoes: pedido['description']);
+      // Response responsePedido =
+      //     await dio.get("http://164.92.92.152:3000/pedidos/${p.id}");
+      // p.reqName = responsePedido.data["requester"]["username"];
+      // p.score = responsePedido.data["requester"]["score"].toDouble();
       pedidosAPI.add(p);
     });
     return pedidosAPI;
@@ -57,6 +63,8 @@ class _MainScreenState extends State<MainScreen> {
       loadPedidos().then((val) => {
             setState(() {
               pedidos = val;
+              username = userData["username"];
+              score = userData["score"].toStringAsFixed(1);
             })
           });
     });
@@ -83,9 +91,7 @@ class _MainScreenState extends State<MainScreen> {
                       child: Align(
                         alignment: Alignment.center,
                         child: Text(
-                          userData.containsKey('name')
-                              ? userData['name']
-                              : 'carregando',
+                          username,
                           style: TextStyle(
                             fontSize: 22,
                           ),
@@ -98,7 +104,7 @@ class _MainScreenState extends State<MainScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "4,0",
+                          score,
                           style: TextStyle(
                             fontSize: 22,
                           ),
@@ -121,13 +127,13 @@ class _MainScreenState extends State<MainScreen> {
                 } /////// FUNÇÃO PARA IR PARA A TELA DE EDITAR DADOS /////////////
                 ),
             const Divider(color: Colors.grey),
-            ListTile(
-                title: Text("Amigos"),
-                onTap: () {
-                  Navigator.pushNamed(context, '/amigos');
-                } /////// FUNÇÃO PARA IR PARA A TELA DE AMIGOS /////////////
-                ),
-            const Divider(color: Colors.grey),
+            // ListTile(
+            //     title: Text("Amigos"),
+            //     onTap: () {
+            //       Navigator.pushNamed(context, '/amigos');
+            //     } /////// FUNÇÃO PARA IR PARA A TELA DE AMIGOS /////////////
+            //     ),
+            // const Divider(color: Colors.grey),
             ListTile(
                 title: Text(
                   "Desativar Conta",
@@ -164,7 +170,7 @@ class _MainScreenState extends State<MainScreen> {
               width: 12,
             ),
           ],
-           backgroundColor: Color.fromARGB(255, 255, 251, 251),
+          backgroundColor: Color.fromARGB(255, 255, 251, 251),
         ),
         backgroundColor: Color(0xffEEEEEE),
         body: Padding(

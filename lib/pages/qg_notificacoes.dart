@@ -13,21 +13,21 @@ class Notificacoes extends StatefulWidget {
   @override
   State<Notificacoes> createState() => AbrirNotificacoes();
 }
-class AbrirNotificacoes extends State<Notificacoes> {
 
-  
-   List<Pedido> pedidosAtivos = [];
-   Future<List<Pedido>> loadPedidos() async {
+class AbrirNotificacoes extends State<Notificacoes> {
+  List<Pedido> pedidosAtivos = [];
+  Future<List<Pedido>> loadPedidos() async {
     var dio = Dio();
     final prefs = await SharedPreferences.getInstance();
     List<Pedido> pedidosAPI = [];
     String? userToken = await prefs.getString('userToken');
     print(userToken);
 
-    Response response =
-        await dio.get("http://164.92.92.152:3000/pedidos/active?token=$userToken");
+    Response response = await dio
+        .get("http://164.92.92.152:3000/pedidos/active?token=$userToken");
     response.data.forEach((pedido) {
       Pedido p = Pedido(
+          id: pedido['id'],
           item: pedido['name'],
           campus: pedido['campus'],
           predio: pedido['building_id'],
@@ -54,8 +54,8 @@ class AbrirNotificacoes extends State<Notificacoes> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-    child: Scaffold(
-     backgroundColor: Color.fromARGB(255, 255, 251, 251),
+      child: Scaffold(
+        backgroundColor: Color.fromARGB(255, 255, 251, 251),
         body: Container(
           margin: EdgeInsets.all(15),
           child: Padding(
@@ -74,11 +74,13 @@ class AbrirNotificacoes extends State<Notificacoes> {
                       iconSize: 30,
                       tooltip: 'Voltar para a lista de Pedidos',
                       onPressed: () {
-                       Navigator.pop(context);
+                        Navigator.pop(context);
                       },
                     ),
                   ),
-                  SizedBox(height: 20,),
+                  SizedBox(
+                    height: 20,
+                  ),
                   Text(
                     "Notificações",
                     style: TextStyle(
@@ -96,24 +98,23 @@ class AbrirNotificacoes extends State<Notificacoes> {
                     ),
                   ),
                   Flexible(
-                  child: ListView(
-                    shrinkWrap: true,
-                    children: [
-                      for (Pedido pedido in pedidosAtivos)
-                        ListTile(
-                          title: Text(""),
-                          onTap: () {}    /////// Função apra ir para o pedido
-                        ),
-                    ],
+                    child: ListView(
+                      shrinkWrap: true,
+                      children: [
+                        for (Pedido pedido in pedidosAtivos)
+                          ListTile(
+                              title: Text(""),
+                              onTap: () {} /////// Função apra ir para o pedido
+                              ),
+                      ],
+                    ),
                   ),
-                ),
                 ],
+              ),
             ),
           ),
-       
-    ),
         ),
-    ),
+      ),
     );
   }
 }
