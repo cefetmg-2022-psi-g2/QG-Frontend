@@ -68,6 +68,16 @@ class _MainScreenState extends State<MainScreen> {
     });
   }
 
+  Future<void> pullRefresh() async{
+    loadPedidos().then((val) => {
+      setState(() {
+        pedidos = val;
+        username = userData["username"];
+        score = userData["score"].toStringAsFixed(1);
+      })
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -171,25 +181,28 @@ class _MainScreenState extends State<MainScreen> {
           backgroundColor: Color.fromARGB(255, 255, 251, 251),
         ),
         backgroundColor: Color(0xffEEEEEE),
-        body: Padding(
-            padding: EdgeInsets.all(5),
-            child: Column(
-              children: [
-                Flexible(
-                  child: GridView.count(
-                    padding: EdgeInsets.all(2),
-                    crossAxisCount: 2,
-                    shrinkWrap: true,
-                    mainAxisSpacing: 20,
-                    crossAxisSpacing: 0,
-                    childAspectRatio: 1.5,
-                    children: [
-                      for (Pedido pedido in pedidos) CardPedido(pedido: pedido)
-                    ],
+        body: RefreshIndicator(
+          onRefresh: pullRefresh,
+          child: Padding(
+              padding: EdgeInsets.all(5),
+              child: Column(
+                children: [
+                  Flexible(
+                    child: GridView.count(
+                      padding: EdgeInsets.all(2),
+                      crossAxisCount: 2,
+                      shrinkWrap: true,
+                      mainAxisSpacing: 20,
+                      crossAxisSpacing: 0,
+                      childAspectRatio: 1.5,
+                      children: [
+                        for (Pedido pedido in pedidos) CardPedido(pedido: pedido)
+                      ],
+                    ),
                   ),
-                ),
-              ],
-            )),
+                ],
+              ))
+        ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             Navigator.pushNamed(context, '/realizarpedido');

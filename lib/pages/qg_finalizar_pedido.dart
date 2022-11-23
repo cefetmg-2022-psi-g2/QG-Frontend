@@ -134,11 +134,11 @@ class AbrirFinalizarPedido extends State<FinalizarPedido> {
                       try {
                         Response response = await dio.post(
                             "http://164.92.92.152:3000/pedidos/finish/${pedido.id}",
-                            data: {"token": userToken, "rating": "+1"});
-                        if (response.statusCode == 200) {
+                            data: {"token": userToken, "rating": "1"});
+                        if (response.statusCode == 204) {
                           Navigator.pushNamed(context, '/mainscreen');
                           const snackBar =
-                              SnackBar(content: Text("Pedido Atendido."));
+                              SnackBar(content: Text("Pedido Finalizado."));
                           ScaffoldMessenger.of(context).clearSnackBars();
                           ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         }
@@ -156,7 +156,7 @@ class AbrirFinalizarPedido extends State<FinalizarPedido> {
                           case 409:
                             const snackBar = SnackBar(
                                 content: Text(
-                                    "Pedido não existe ou já foi atendido."));
+                                    "Pedido não existe ou já foi finalizado."));
                             ScaffoldMessenger.of(context).clearSnackBars();
                             ScaffoldMessenger.of(context)
                                 .showSnackBar(snackBar);
@@ -197,10 +197,10 @@ class AbrirFinalizarPedido extends State<FinalizarPedido> {
                         Response response = await dio.post(
                             "http://164.92.92.152:3000/pedidos/finish/${pedido.id}",
                             data: {"token": userToken, "rating": "-1"});
-                        if (response.statusCode == 200) {
+                        if (response.statusCode == 204) {
                           Navigator.pushNamed(context, '/mainscreen');
                           const snackBar =
-                              SnackBar(content: Text("Pedido Atendido."));
+                              SnackBar(content: Text("Pedido Finalizado."));
                           ScaffoldMessenger.of(context).clearSnackBars();
                           ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         }
@@ -218,7 +218,7 @@ class AbrirFinalizarPedido extends State<FinalizarPedido> {
                           case 409:
                             const snackBar = SnackBar(
                                 content: Text(
-                                    "Pedido não existe ou já foi atendido."));
+                                    "Pedido não existe ou já foi finalizado."));
                             ScaffoldMessenger.of(context).clearSnackBars();
                             ScaffoldMessenger.of(context)
                                 .showSnackBar(snackBar);
@@ -257,10 +257,10 @@ class AbrirFinalizarPedido extends State<FinalizarPedido> {
                     Response response = await dio.post(
                         "http://164.92.92.152:3000/pedidos/finish/${pedido.id}",
                         data: {"token": userToken, "rating": "0"});
-                    if (response.statusCode == 200) {
+                    if (response.statusCode == 204) {
                       Navigator.pushNamed(context, '/mainscreen');
                       const snackBar =
-                          SnackBar(content: Text("Pedido Atendido."));
+                          SnackBar(content: Text("Pedido Finalizado."));
                       ScaffoldMessenger.of(context).clearSnackBars();
                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
                     }
@@ -277,7 +277,7 @@ class AbrirFinalizarPedido extends State<FinalizarPedido> {
                       case 409:
                         const snackBar = SnackBar(
                             content:
-                                Text("Pedido não existe ou já foi atendido."));
+                                Text("Pedido não existe ou já foi finalizado."));
                         ScaffoldMessenger.of(context).clearSnackBars();
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         break;
