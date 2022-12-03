@@ -1,16 +1,23 @@
-# qg
+# Quebra-Galho
 
-A new Flutter project.
+Um sistema mobile para facilitar relacionamentos de empréstimo de material no CEFET-MG.
 
-## Getting Started
+## Sobre o projeto
 
-This project is a starting point for a Flutter application.
+[Wiki](https://github.com/cefetmg-2022-psi-g2/wiki/wiki)
 
-A few resources to get you started if this is your first Flutter project:
+Integrantes do Grupo:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- Leônidas José
+- Luis Felipe Brescia
+- Luiz Fernando Almeida
+- Marcos Paulo
+- Vitor Gabriel
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Essa aplicação é desenvolvida para o Sistema Android, feita com Flutter.
+
+Outras tecnologias utilizadas foram:
+- Dart
+- NodeJS
+- Express
+- SQLite
